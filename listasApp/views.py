@@ -10,8 +10,15 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CR
 from rest_framework.views import APIView
 
 class ListaViewSet( viewsets.ModelViewSet ):
-    queryset = Lista.objects.all()
+    permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = ListaSerializer
+
+    def get_queryset(self):
+        return self.request.user.lista.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class ProductoViewSet( viewsets.ModelViewSet ):
     queryset = Producto.objects.all()
