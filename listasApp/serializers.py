@@ -8,14 +8,24 @@ class ProductoSerializer( serializers.HyperlinkedModelSerializer ):
 
     class Meta:
         model = Producto
-        fields = ('NombreProducto','CostoReal','Tienda','Notas','Estado','Lista')
+        fields = ('NombreProducto', 'CostoReal', 'Tienda', 'Notas', 'Estado', 'Lista')
 
 class ListaSerializer( serializers.HyperlinkedModelSerializer ):
+    
+    class Meta:
+        model = Lista
+        fields = ('NombreLista', 'Estado', 'valorPresupuestado', 'costoReal')
+
+class ListaCrearSerializer( serializers.HyperlinkedModelSerializer ):
     Producto = serializers.CharField( source='Producto.NombreProducto', read_only=True)
 
     class Meta:
         model = Lista
-        fields = ('NombreLista','Estado','Producto')
+        fields = ('NombreLista', 'Estado', 'valorPresupuestado', 'costoReal')
+
+    def create(self, validated_data):
+        lista = Lista.objects.lista()
+        return lista
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:

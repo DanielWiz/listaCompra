@@ -36,12 +36,18 @@ class RegistrationAPI(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)
         })
 
+
 class UserAPI(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
